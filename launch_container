@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [[ $# -lt 1 ]]; then
+echo "Expected format: $0 <mountfolder> ..."
+exit 1
+fi
+
+data=$1
+
+xsock="/tmp/.X11-unix"
+xauth="/tmp/.docker.${USER}.xauth"
+
+touch $xauth
+xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $xauth nmerge -
+chmod 777 $xauth
+
+docker run -it --rm \
+  -u $(id -u):$(id -g) \
+  --name=uslam \
+  --privileged \
+  --ipc host \
+  --net host \
+  -e DISPLAY=${DISPLAY} \
+  -e XAUTHORITY=${xauth} \
+  -v ${xsock}:${xsock}:rw \
+  -v ${xauth}:${xauth}:rw \
+  -e QT_X11_NO_MITSHM=1 \
+  -v "$(pwd)":/uslam_ws/src/rpg_ultimate_slam_open/ \
+  -v "$data":/data \
+  -e XDG_RUNTIME_DIR=/home/rpg \
+  -v /dev/bus/usb:/dev/bus/usb \
+  -w /uslam_ws/src/rpg_ultimate_slam_open/ \
+  rpg/ultimate_slam_open:melodic bash

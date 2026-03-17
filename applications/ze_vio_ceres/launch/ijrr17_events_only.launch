@@ -6,7 +6,7 @@
     args="
 
     --data_source=1  # rosbag
-    --bag_filename=$(find ze_vio_ceres)../../data/$(arg bag_filename)
+    --bag_filename=$(arg bag_filename)
     --vio_use_events=1
     --vio_use_events_and_images=0
     --vio_rescale_intrinsics_for_distortion=true

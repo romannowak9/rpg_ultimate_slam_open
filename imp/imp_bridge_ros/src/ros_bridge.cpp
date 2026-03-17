@@ -88,6 +88,27 @@ ImageBase::Ptr toImageCpu(
           std::make_shared<ImageRaw8uC1>(src_wrapped); // Deep copy of the image data.
       return dst;
     }
+    case PixelType::i8uC3:
+    {
+        // Convert RGB to grayscale
+        std::vector<uint8_t> grayscale_data(width * height);
+        for (size_t i = 0; i < width * height; ++i)
+        {
+            uint8_t b = src.data[i * 3];     // Blue
+            uint8_t g = src.data[i * 3 + 1]; // Green
+            uint8_t r = src.data[i * 3 + 2]; // Red
+            // Calculate luminance (Y) using the formula Y = 0.299*R + 0.587*G + 0.114*B
+            uint8_t y = static_cast<uint8_t>(0.299 * r + 0.587 * g + 0.114 * b);
+            grayscale_data[i] = y;
+        }
+        pitch = width * bit_depth / 8;
+        ImageRaw8uC1 src_wrapped(
+          reinterpret_cast<Pixel8uC1*>(const_cast<uint8_t*>(&grayscale_data[0])),
+          width, height, pitch, true, PixelOrder::gray);
+        ImageRaw8uC1::Ptr dst =
+            std::make_shared<ImageRaw8uC1>(src_wrapped);
+        return dst;
+    }
 //  case imp::PixelType::i8uC2:
 //  { } break;
 //  case imp::PixelType::i8uC3:

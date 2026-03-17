@@ -21,6 +21,14 @@ sudo ./install.sh
 
 More detailed instructions are available [here](https://github.com/uzh-rpg/rpg_dvs_ros) in case you are having troubles during this step.
 
+Alternatively, you can install iniVation's `dv-ros` package following the instructions [here](https://gitlab.com/inivation/dv/dv-ros).
+Notice that dv-ros uses different topic names than `davis_ros_driver`. You will need to modify these topics in 
+the camera's config at `ze_vio_ceres/cfg/<camera_name>.cfg`. These are typically:
+
+    --topic_cam0=/capture_node/camera/image
+    --topic_dvs0=/capture_node/events
+    --topic_imu0=/capture_node/imu
+
 ## Calibrate your DAVIS camera
 
 Before running UltimateSLAM, you will need to calibrate your DAVIS sensor, i.e. estimate the camera intrinsic parameters, the camera-to-IMU extrinsic parameters, as well as the time offset between the IMU and the events. Some guidance is provided in [this page](Camera-Calibration.md).
@@ -46,6 +54,10 @@ Start a `roscore`:
 Start the DAVIS driver:
 
 ```rosrun davis_ros_driver davis_ros_driver```
+
+Or, if you are using the dv-ros package:
+
+```roslaunch dv_ros_capture capture.launch```
 
 #### Terminal 3
 
