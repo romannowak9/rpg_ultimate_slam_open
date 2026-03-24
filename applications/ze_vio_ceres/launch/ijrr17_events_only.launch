@@ -26,7 +26,8 @@
     --noise_event_rate=20000
     --vio_frame_norm_factor=4.0
 
-    --vio_trace_pose=False
+    --vio_trace_pose=True
+    --log_dir=/tmp
     --vmodule=feature_tracker=0
     --colorlogtostderr=1
     --logtostderr=1

@@ -20,7 +20,7 @@ In **VSCode** `Ctrl+Shift+P` -> `Attach to running container` -> `uslam`
 ## How to run USLAM with example data?
 
 ```bash
-source ~/uslam_ws/devel/setup.bash
+source /uslam_ws/devel/setup.bash
 ```
 
 Events + IMU
@@ -36,3 +36,7 @@ For example:
 ```bash
 roslaunch ze_vio_ceres ijrr17_events_only.launch bag_filename:=/data/uSLAM/boxes_6dof.bag  
 ```
+
+Estimated trajectory is logged to file: `/tmp/traj_es.csv`
+
+TODO: Wizualizacja estymowanej trajektorii, ogarnięcie co jest w tyych bagach przykładowych, przerobienie konkursowych zbiorów danych na takie same bagi

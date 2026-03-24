@@ -44,7 +44,12 @@ RUN apt-get update && \
     wget \
     autoconf \
     automake \
-    libtool
+    libtool \
+    python3-venv
+
+RUN apt install -y \
+    python3-pip \
+    python3-yaml
 
 RUN mkdir -p -m 0600 /root/.ssh && ssh-keyscan github.com >> /root/.ssh/known_hosts
 
